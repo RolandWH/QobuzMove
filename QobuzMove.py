@@ -1,5 +1,5 @@
 # Import moduels
-import os, sys, time, shutil, getpass
+import os, sys, time, shutil
 from pathlib import Path
 from configparser import ConfigParser
 
