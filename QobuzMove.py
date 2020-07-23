@@ -51,9 +51,35 @@ while notvalid:
             path = parser.get("CONFIG", "path")
             os.chdir(path)
     elif setup == "0":
+        if os.path.isdir(path) == False:
+            notvalid = True
+            while notvalid:
+                QobuzPath = input("Qobuz path no longer exists, please enter it agien: ")
+                if os.path.isdir(QobuzPath) == False:
+                    print("Path dosent exist, try agien")
+                else:
+                    config["path"] = QobuzPath
+                    config["setup"] = "0"
+                    with open("config.ini", "w") as conf:
+                        parser.write(conf)
+                    notvalid=False
+                    path = parser.get("CONFIG", "path")
+                    os.chdir(path)
+        else:
+            QobuzPath = path
+            config["path"] = QobuzPath
+            config["setup"] = "0"
+            with open("config.ini", "w") as conf:
+                parser.write(conf)
+            notvalid=False
+            path = parser.get("CONFIG", "path")
+            os.chdir(path)
+    else:
         QobuzPath = path
         os.chdir(path)
         notvalid=False
+
+
 
 
 # Set variables
