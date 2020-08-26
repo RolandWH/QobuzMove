@@ -11,7 +11,6 @@ def listdir_func():
             print(i)
         else:
             continue
-listdir_func()
 
 
 # Create config.ini file
