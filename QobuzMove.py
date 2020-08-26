@@ -4,6 +4,7 @@ from pathlib import Path
 from configparser import ConfigParser
 
 
+# Function to list folders in the cwd (not files)
 def listdir_func():
     q = os.listdir(".")
     for i in q:
@@ -143,4 +144,4 @@ movedir = os.getcwd() + "/placehold"
 shutil.move(albumdir, movedir)
 os.rmdir(album)
 os.rename("placehold", album)
-# I just wanted line 145 ヾ(•ω•`)o
+# I just wanted line 146 ヾ(•ω•`)o
