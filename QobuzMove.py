@@ -4,14 +4,14 @@ from pathlib import Path
 from configparser import ConfigParser
 
 
-#list = os.listdir(".")
-#x = 0
-#q = []
-#while x < len(list):
-#    q = [os.path.isdir(list[x])]
-#    x += 1
-#    print(q)
-#sys.exit()
+def listdir_func():
+    q = os.listdir(".")
+    for i in q:
+        if os.path.isdir(i):
+            print(i)
+        else:
+            continue
+listdir_func()
 
 
 # Create config.ini file
@@ -90,6 +90,7 @@ correctdir = None
 
 # Get artist and album from user
 notvalid = True
+listdir_func()
 while notvalid:
     artist = input("Enter artist name: ")
     if os.path.isdir(artist) == False:
@@ -99,6 +100,7 @@ while notvalid:
         os.chdir(artist)
 
 notvalid = True
+listdir_func()
 while notvalid:
     album = input("Enter album name: ")
     if os.path.isdir(album) == False:
