@@ -1,2 +1,20 @@
-.vscode
+# JetBrains
+.idea/
+
+# Gradle
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+
+# VSCode
+.vscode/
+
+# Other
+bin/
+run/
+.classpath
+.project
+README.md
 config.ini

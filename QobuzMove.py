@@ -80,8 +80,6 @@ while notvalid:
         notvalid=False
 
 
-
-
 # Set variables
 f_24_96 = "FLAC (24bit-96kHz)"
 f_24_44 = "FLAC (24bit-44.1kHz)"
@@ -144,4 +142,4 @@ movedir = os.getcwd() + "/placehold"
 shutil.move(albumdir, movedir)
 os.rmdir(album)
 os.rename("placehold", album)
-# I just wanted line 120 ヾ(•ω•`)o
+# I just wanted line 145 ヾ(•ω•`)o
