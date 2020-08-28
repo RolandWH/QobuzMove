@@ -1,5 +1,5 @@
 # Import moduels
-import os, sys, time, shutil, questionary
+import os, sys, time, shutil, questionary, getpass
 from pathlib import Path
 from configparser import ConfigParser
 
@@ -18,6 +18,14 @@ def getdirs():
 
 
 # Create config.ini file
+username = getpass.getuser()
+roaming = "C:/Users/" + username + "/AppData/Roaming"
+os.chdir(roaming)
+if os.path.isdir("QobuzMove") == False:
+    os.mkdir("QobuzMove")
+    os.chdir("QobuzMove")
+else:
+    os.chdir("QobuzMove")
 if os.path.isfile("config.ini") == False:
     parser = ConfigParser()
     parser["CONFIG"] = {
@@ -133,4 +141,4 @@ shutil.move(albumdir, movedir)
 os.rmdir(album)
 os.rename("placehold", album)
 print("Done!")
-# I just wanted line 146 ヾ(•ω•`)o
+# I just wanted line 144 ヾ(•ω•`)o
