@@ -1,15 +1,18 @@
 # Import moduels
-import os, sys, time, shutil
+import os, sys, time, shutil, questionary
 from pathlib import Path
 from configparser import ConfigParser
 
 
-# Function to list folders in the cwd (not files)
-def listdir_func():
+# Function to filter out files from os.listdir and return the resulting list of folders into a list.
+z = None
+def getdirs():
     q = os.listdir(".")
+    global z
+    z = []
     for i in q:
-        if os.path.isdir(i):
-            print(i)
+        if os.path.isfile(i) == False:
+            z.insert(0, i)
         else:
             continue
 
@@ -88,40 +91,24 @@ mp3 = "MP3"
 correctdir = None
 
 
-# Get artist and album from user
-notvalid = True
-listdir_func()
-while notvalid:
-    artist = input("Enter artist name: ")
-    if os.path.isdir(artist) == False:
-        print("Artist dosent exist, try agien")
-    else:
-        notvalid = False
-        os.chdir(artist)
+# Get artist and album from user using questionary prompt
+getdirs()
+artist = questionary.select("Choose an artist: ", choices=z).ask(input)
+os.chdir(artist)
 
-notvalid = True
-listdir_func()
-while notvalid:
-    album = input("Enter album name: ")
-    if os.path.isdir(album) == False:
-        print("Album dosent exist, try agien")
-    else:
-        notvalid = False
-        os.chdir(album)
+getdirs()
+album = questionary.select("Choose an album: ", choices=z).ask(input)
+os.chdir(album)
 
 
 # Change directory
 if os.path.exists(f_24_96):
-    os.chdir(f_24_96)
     correctdir = f_24_96
 elif os.path.exists(f_24_44):
-    os.chdir(f_24_44)
     correctdir = f_24_44
 elif os.path.exists(f_16_44):
-    os.chdir(f_16_44)
     correctdir = f_16_44
 elif os.path.exists(mp3):
-    os.chdir(mp3)
     correctdir = mp3
 else:
     print("Cannot find any music :( Exiting...")
@@ -130,6 +117,7 @@ else:
 
 
 # Delete artwork
+os.chdir(correctdir)
 if os.path.exists("Cover.jpg"):
     os.remove("Cover.jpg")
 else: print("Cannot remove artwork as none exists, continuing")
@@ -144,4 +132,5 @@ movedir = os.getcwd() + "/placehold"
 shutil.move(albumdir, movedir)
 os.rmdir(album)
 os.rename("placehold", album)
+print("Done!")
 # I just wanted line 146 ヾ(•ω•`)o
