@@ -4,60 +4,69 @@ from pathlib import Path
 from configparser import ConfigParser
 
 
-# Function to filter out files from os.listdir and return the resulting list of folders into a list.
-z = None
-def getdirs():
-    q = os.listdir(".")
-    global z
-    z = []
-    for i in q:
-        if os.path.isfile(i) == False:
-            z.insert(0, i)
-        else:
-            continue
+# Define variables
 
-
-# Create config.ini file
-username = getpass.getuser()
-roaming = "C:/Users/" + username + "/AppData/Roaming"
-os.chdir(roaming)
-if os.path.isdir("QobuzMove") == False:
-    os.mkdir("QobuzMove")
-    os.chdir("QobuzMove")
-else:
-    os.chdir("QobuzMove")
-if os.path.isfile("config.ini") == False:
-    parser = ConfigParser()
-    parser["CONFIG"] = {
-        "path": "null",
-        "setup": "1"
-    }
-    with open("config.ini", "w") as conf:
-        parser.write(conf)
-else:
-    pass
-
-
-# Read config values
+# ConfigParser
 parser = ConfigParser()
 parser.read("config.ini")
 config = parser["CONFIG"]
 path = parser.get("CONFIG", "path")
 setup = parser.get("CONFIG", "setup")
 
+# "FORMAT (Bit depth, bitrate)" folder names
+f_24_96 = "FLAC (24bit-96kHz)"
+f_24_44 = "FLAC (24bit-44.1kHz)"
+f_16_44 = "FLAC (16bit-44.1kHz)"
+mp3 = "MP3"
 
-# Check if Qobuz downloader path has already been set and if not set it as a valid user input
+# Misc
+z = None
+username = getpass.getuser()
+roaming = "C:/Users/" + username + "/AppData/Roaming"
+
+
+# Function to filter out files from os.listdir and return the resulting list of folders into a list
+def getdirs():
+    q = os.listdir(".")
+    global z
+    z = []
+    for i in q:
+        if os.path.isfile(i) == False:
+            z.insert(0, i) # Returns list of folders in cwd into z array 
+        else:
+            continue # Skip to next item if current item is a file
+
+
+# Create config.ini file
+os.chdir(roaming) # Change directory to the current users roaming folder
+if os.path.isdir("QobuzMove") == False:
+    os.mkdir("QobuzMove") # If there is no QobuzMove directory already in roaming folder then create one
+    os.chdir("QobuzMove")
+else:
+    os.chdir("QobuzMove")
+if os.path.isfile("config.ini") == False:
+    parser["CONFIG"] = {
+        "path": "null",
+        "setup": "1"
+    } # If config.ini file dosen't exist inside QobuzMove directory then create one with default values
+    with open("config.ini", "w") as conf:
+        parser.write(conf)
+else:
+    pass
+
+
+# Check if Qobuz downloader path has already been set in config and if not ask user to set it
 notvalid = True
 while notvalid:
     if setup == "1":
         QobuzPath = input("Enter the Qobuz donwloader path: ")
         if os.path.isdir(QobuzPath) == False:
-            print("Path dosent exist, try agien")
+            print("Path dosent exist, try agien") # Loop until user enters a valid path for QobuzDownloader
         else:
             config["path"] = QobuzPath
             config["setup"] = "0"
             with open("config.ini", "w") as conf:
-                parser.write(conf)
+                parser.write(conf) # When user enters a valid path for QobuzDownloader write it to config
             notvalid=False
             path = parser.get("CONFIG", "path")
             os.chdir(path)
@@ -66,8 +75,8 @@ while notvalid:
             notvalid = True
             while notvalid:
                 QobuzPath = input("Qobuz path no longer exists, please enter it agien: ")
-                if os.path.isdir(QobuzPath) == False:
-                    print("Path dosent exist, try agien")
+                if os.path.isdir(QobuzPath) == False: # Check if the path in config is still valid
+                    print("Path dosent exist, try agien") # If it isn't then loop until the user enters a new valid path
                 else:
                     config["path"] = QobuzPath
                     config["setup"] = "0"
@@ -91,17 +100,9 @@ while notvalid:
         notvalid=False
 
 
-# Set variables
-f_24_96 = "FLAC (24bit-96kHz)"
-f_24_44 = "FLAC (24bit-44.1kHz)"
-f_16_44 = "FLAC (16bit-44.1kHz)"
-mp3 = "MP3"
-correctdir = None
-
-
 # Get artist and album from user using questionary prompt
-getdirs()
-artist = questionary.select("Choose an artist: ", choices=z).ask(input)
+getdirs() # Call getdirs function
+artist = questionary.select("Choose an artist: ", choices=z).ask(input) # Use z array from getdirs function to give a choice of folders
 os.chdir(artist)
 
 getdirs()
@@ -109,9 +110,9 @@ album = questionary.select("Choose an album: ", choices=z).ask(input)
 os.chdir(album)
 
 
-# Change directory
+# Check if folder name variables defined earlier exist in album folder
 if os.path.exists(f_24_96):
-    correctdir = f_24_96
+    correctdir = f_24_96 # When the correct directory name is found mark it for later using correctdir variable
 elif os.path.exists(f_24_44):
     correctdir = f_24_44
 elif os.path.exists(f_16_44):
@@ -121,24 +122,24 @@ elif os.path.exists(mp3):
 else:
     print("Cannot find any music :( Exiting...")
     time.sleep(2.3)
-    sys.exit()
+    sys.exit() # If none of these folders can be found the program will exit.
+               # If this happens it means either that the tool has already been run on this album or that it dosen't actually contain any QobuzDownloader music
 
 
 # Delete artwork
 os.chdir(correctdir)
 if os.path.exists("Cover.jpg"):
-    os.remove("Cover.jpg")
-else: print("Cannot remove artwork as none exists, continuing")
+    os.remove("Cover.jpg") # If album cover exists delete it.
+else: print("Cannot remove artwork as none exists, continuing") # If it dosen't exist print a message and move on.
 
 
 # Remove "FORMAT (Bit depth, bitrate)" folder
-os.chdir("..")
-os.rename(correctdir, "placehold")
-albumdir = os.getcwd() + "/placehold"
-os.chdir("..")
-movedir = os.getcwd() + "/placehold"
-shutil.move(albumdir, movedir)
-os.rmdir(album)
-os.rename("placehold", album)
+os.chdir("..") # Go back into album directory
+albumdir = os.getcwd() + "/" + correctdir # Set albumdir to the current dir path + the name of the correctdir
+os.chdir("..") # Go back into artist directory
+movedir = os.getcwd() + "/" + correctdir # Set movedir to the current dir path + the name of the correctdir
+shutil.move(albumdir, movedir) # Move the bitrate folder to the artist folder
+os.rmdir(album) # Delete the album folder
+os.rename(correctdir, album) # Rename the bitrate folder to the name of the album
 print("Done!")
-# I just wanted line 144 ヾ(•ω•`)o
+# I just wanted line 146 ヾ(•ω•`)o
