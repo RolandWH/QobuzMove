@@ -142,4 +142,4 @@ shutil.move(albumdir, movedir) # Move the bitrate folder to the artist folder
 os.rmdir(album) # Delete the album folder
 os.rename(correctdir, album) # Rename the bitrate folder to the name of the album
 print("Done!")
-# I just wanted line 146 ヾ(•ω•`)o
+# I just wanted line 145 ヾ(•ω•`)o
