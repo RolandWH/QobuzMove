@@ -18,3 +18,4 @@ run/
 .project
 README.md
 config.ini
+setup.py
