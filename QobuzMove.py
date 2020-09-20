@@ -21,8 +21,7 @@ mp3 = "MP3"
 
 # Misc
 z = None
-username = getpass.getuser()
-roaming = "C:/Users/" + username + "/AppData/Roaming"
+roaming = "C:/Users/" + getpass.getuser() + "/AppData/Roaming"
 
 
 # Function to filter out files from os.listdir and return the resulting list of folders into a list
@@ -142,4 +141,4 @@ shutil.move(albumdir, movedir) # Move the bitrate folder to the artist folder
 os.rmdir(album) # Delete the album folder
 os.rename(correctdir, album) # Rename the bitrate folder to the name of the album
 print("Done!")
-# I just wanted line 145 ヾ(•ω•`)o
+# I just wanted line 144 ヾ(•ω•`)o
