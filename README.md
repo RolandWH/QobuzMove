@@ -76,7 +76,7 @@ else:
     time.sleep(2.3)
     sys.exit()
 ```
-Once the user has selected their desired album directory it checks to see whether [these](https://i.imgur.com/EkcsWOQ.png) names exists in the folder. Once it finds one of them it marks it using the `correctdir` variable. If none of these folders are found (this means that the tool has already been run or that the folder specified does not actually contain music from QobuzDownloaderX) it will exit after printing "Cannot find any music :( Exiting..." for 2.3 seconds. [4(i)](https://github.com/RolandWH/QobuzMove/blob/master/README.md#application-goals:~:text=If%20no%20audio%20quality%20folder%20can%20be%20found).
+Once the user has selected their desired album directory it checks to see whether [these](https://i.imgur.com/EkcsWOQ.png) names exists in the folder. Once it finds one of them it marks it using the `correctdir` variable. If none of these folders are found (this means that the tool has already been run or that the folder specified does not actually contain music from QobuzDownloaderX) it will exit after printing "Cannot find any music :( Exiting..." for 2.3 seconds. [4(i)](https://github.com/RolandWH/QobuzMove/blob/master/README.md#:~:text=If%20no%20audio%20quality%20folder%20can%20be%20found).
 
 ```python
 os.chdir(correctdir)
@@ -84,7 +84,7 @@ if os.path.exists("Cover.jpg"):
     os.remove("Cover.jpg")
 else: print("Cannot remove artwork as none exists, continuing")
 ```
-The script changes directory into the `correctdir` folder marked earlier. It then checks to see if the Cover.jpg (album art) file exists. If the file does exists it gets deleted, if it does not exist a warning is printed ("Cannot remove artwork as none exists, continuing") and then the application continues [5(i)](https://github.com/RolandWH/QobuzMove/blob/master/README.md#application-goals:~:text=If%20artwork%20dosen't%20exist).
+The script changes directory into the `correctdir` folder marked earlier. It then checks to see if the Cover.jpg (album art) file exists. If the file does exists it gets deleted, if it does not exist a warning is printed ("Cannot remove artwork as none exists, continuing") and then the application continues [5(i)](https://github.com/RolandWH/QobuzMove/blob/master/README.md#:~:text=If%20artwork%20dosen't%20exist).
 
 ```python
 os.chdir("..")
