@@ -105,7 +105,8 @@ while notvalid:
 
 # Get artist and album from user using questionary prompt
 getdirs()  # Call getdirs function
-artist = questionary.select("Choose an artist: ", choices=z).ask(input)  # Use z array from getdirs function to give a choice of folders
+artist = questionary.select("Choose an artist: ", choices=z).ask(input)  # Use z array from getdirs function to give
+# a choice of folders
 os.chdir(artist)
 
 getdirs()
@@ -125,7 +126,8 @@ else:
     print("Cannot find any music :( Exiting...")
     time.sleep(2.3)
     sys.exit(0)  # If none of these folders can be found the program will exit.
-    # If this happens it means either that the tool has already been run on this album or that it doesn't actually contain any QobuzDownloader music
+    # If this happens it means either that the tool has already been run on this album or that it doesn't actually
+    # contain any QobuzDownloader music
 
 # Delete artwork
 os.chdir(correctdir)
@@ -144,4 +146,4 @@ os.rmdir(album)  # Delete the album folder
 os.rename(correctdir, album)  # Rename the bitrate folder to the name of the album
 print("Done!")
 sys.exit(0)
-# I just wanted line 147 ヾ(•ω•`)o
+# I just wanted line 149 ヾ(•ω•`)o
