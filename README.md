@@ -1,22 +1,22 @@
 # QobuzMove
-Simple Python script to organize downloads created by QobuzDownloaderX into a simpler folder structure! 
+Simple Python script to organize downloads created by QobuzDownloaderX into a simpler folder structure!
 
 # Application Goals
 1. Create an easy way to select album and artist from console ✔
    1. Only list folders in current directory (not files)
    1. Find a way to let the user use arrow keys to select between all the folders in the current directory
 1. Remove album artwork and audio quality folder ✔
-1. Check all user imput to make sure it's valid ✔
+1. Check all user input to make sure it's valid ✔
    1. Check path to music is valid
-1. Add errors for all senarios where the application can't continue ✔
+1. Add errors for all scenarios where the application can't continue ✔
    1. If no audio quality folder can be found
-1. Add warnings for all senarios where the application can continue but skips certain function. :heavy_check_mark:
-   1. If artwork dosen't exist
+1. Add warnings for all scenarios where the application can continue but skips certain function. :heavy_check_mark:
+   1. If artwork doesn't exist
 1. Create main menu so multiple operations can be performed :x:
 1. Auto detect where QobuzDownloader path is :x:
 1. Add options to either only remove album art or only remove audio quality folder :x:
 
-# How the goals have been achived
+# How the goals have been achieved
 ## 1 (i).
 ```python
 def getdirs():
@@ -57,7 +57,7 @@ artist = questionary.select("Choose an artist: ", choices=z).ask(input)
 os.chdir(artist)
 ```
 When it is time for the user to select which artists and albums should be organized the getdirs() function created earlier is called.
-I then used the `select` function in questionary. This will ask the user to select a folder from our `z` list. Once a selection is made it will be returned into the `artist` variable. The script will then change into the directory specified in the `artist` vairable. This is repeated for the album.
+I then used the `select` function in questionary. This will ask the user to select a folder from our `z` list. Once a selection is made it will be returned into the `artist` variable. The script will then change into the directory specified in the `artist` variable. This is repeated for the album.
 
 ![Questionary](https://i.imgur.com/IL3yqwC.gif)
 
@@ -98,9 +98,9 @@ os.rename(correctdir, album)
 Once the album artwork has been deleted the application moves back into the album directory.
 The `albumdir` variable is then assigned to the current directory + the name of the correct audio quality directory e.g.`C:/Users/Roland/Music/Qobuz/TheFatRat/Stronger/FLAC (16bit-44.1kHz)`
 
-The scirpt moves up one more time into the artist directory.
+The script moves up one more time into the artist directory.
 The `movedir` variable is then assigned to the current directory + the name of the correct audio quality directory name
 e.g. `C:/Users/Roland/Music/Qobuz/TheFatRat/FLAC (16bit-44.1kHz)`
 
 Now `albumdir` is moved to `movedir` and the original album folder is deleted because it is now empty.
-The audio quality folder is the renamed to the original name of the album selected using questionary. 
+The audio quality folder is the renamed to the original name of the album selected using questionary.
