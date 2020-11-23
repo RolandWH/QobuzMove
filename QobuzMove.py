@@ -15,7 +15,7 @@ z = None
 parser = ConfigParser()
 if sys.platform == "linux":
     roaming = "/home/" + getpass.getuser() + "/.config"
-elif sys.platform == "Windows":
+elif sys.platform == "Windows" or sys.platform == "win32":
     roaming = "C:/Users/" + getpass.getuser() + "/AppData/Roaming"
 else:
     print("Sorry but your operating system is not supported at this time")
@@ -36,6 +36,8 @@ def getdirs():
 
 
 # Create config.ini file
+if not os.path.isdir(roaming):
+    os.mkdir(roaming)
 os.chdir(roaming)  # Change directory to the current users roaming folder
 if not os.path.isdir("QobuzMove"):
     os.mkdir("QobuzMove")  # If there is no QobuzMove directory already in roaming folder then create one
@@ -105,6 +107,11 @@ while notvalid:
 
 # Get artist and album from user using questionary prompt
 getdirs()  # Call getdirs function
+if len(z) == 0:  # Make sure that the music directory selected is not empty
+    print("Sorry but the music directory you selected is empty, please either download some music with "
+          "QobuzDownloaderX or choose another one by editing the config.ini file.")
+    time.sleep(2.3)
+    sys.exit()
 artist = questionary.select("Choose an artist: ", choices=z).ask(input)  # Use z array from getdirs function to give
 # a choice of folders
 os.chdir(artist)
@@ -146,4 +153,4 @@ os.rmdir(album)  # Delete the album folder
 os.rename(correctdir, album)  # Rename the bitrate folder to the name of the album
 print("Done!")
 sys.exit(0)
-# I just wanted line 149 ヾ(•ω•`)o
+# I just wanted line 156 ヾ(•ω•`)o
